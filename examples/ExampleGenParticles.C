@@ -82,6 +82,10 @@ void FillHistos(std::string sample)
   t1.Branch("nTrk_",&nTrk_,"nTrk_/I");
   Float_t trkT_[2000];
   t1.Branch("trkT_", trkT_, "trkT_[nTrk_]/F");
+  Float_t trkEta_[2000];
+  t1.Branch("trkEta_", trkEta_, "trkEta_[nTrk_]/F");
+  Float_t trkPhi_[2000];
+  t1.Branch("trkPhi_", trkPhi_, "trkPhi_[nTrk_]/F");
   Float_t trkT0_[2000];
   t1.Branch("trkT0_", trkT0_, "trkT0_[nTrk_]/F");
   Float_t trkDMTDToPV_[2000];
@@ -127,6 +131,8 @@ void FillHistos(std::string sample)
     Int_t nTracksInJetGen[20];
     Float_t trkDMTDToPV[2000];
     Float_t trkT[2000];
+    Float_t trkEta[2000];
+    Float_t trkPhi[2000];
     Float_t trkT0[2000];
     Float_t trkTuncorr[2000];
      int nTrk=0;
@@ -191,9 +197,11 @@ void FillHistos(std::string sample)
 	    if(deltaR>0.2)continue;
 	    nTracksInGenJet++;
 
-	    std::cout<<" tmtd: "<<tt->TMTD<< " tcorr: "<<timeCorrection<<" tcorrected: "<<tt->TMTD-timeCorrection<<std::endl;
+	    if(abs(tt->Eta)<1.4442)std::cout<<" tmtd: "<<tt->TMTD<< " x: "<<tt->XMTD<< " y: "<<tt->YMTD<<" z: "<<tt->ZMTD<<std::endl;
 	    
 	    trkDMTDToPV[nTrk] =distanceMTDToPV;
+	    trkEta[nTrk]= tt->Eta;
+	    trkPhi[nTrk]= tt->Phi;
 	    trkT[nTrk]= tt->TMTD-timeCorrection;
 	    trkT0[nTrk]= tt->TMTD-timeCorrection0;
 	    trkTuncorr[nTrk]= tt->TMTD;
@@ -305,6 +313,8 @@ void FillHistos(std::string sample)
     nTrk_=nTrk;
     for(int i =0;i<nTrk;i++){
       trkDMTDToPV_[i]=trkDMTDToPV[i];
+      trkEta_[i]=trkEta[i];
+      trkPhi_[i]=trkPhi[i];
       trkT_[i]=trkT[i];
       trkT0_[i]=trkT0[i];
       trkTuncorr_[i]=trkTuncorr[i];
